@@ -12,17 +12,20 @@ class Conference
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column()]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $city;
 
-    #[ORM\Column(length: 4)]
-    private ?string $year = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
 
-    #[ORM\Column]
-    private ?bool $isInternational = null;
+    #[ORM\Column(type: 'string', length: 4)]
+    private $year;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isInternational;
 
     #[ORM\OneToMany(mappedBy: 'conference', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
@@ -30,6 +33,11 @@ class Conference
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString(): string 
+    {
+        return $this->city.' / '.$this->name.' / '.$this->year;
     }
 
     public function getId(): ?int
@@ -42,9 +50,22 @@ class Conference
         return $this->city;
     }
 
+
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

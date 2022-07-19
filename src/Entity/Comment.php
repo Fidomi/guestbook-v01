@@ -11,27 +11,32 @@ class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column()]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $author = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $author;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $text = null;
+    private $text;
 
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $email;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: Conference::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Conference $conference = null;
+    private $conference;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photoFilename = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photoFilename;
+    
+    public function __toString(): string 
+    {
+        return  $this->getEmail();
+    }
 
     public function getId(): ?int
     {
@@ -46,7 +51,6 @@ class Comment
     public function setAuthor(string $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -70,7 +74,6 @@ class Comment
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -82,7 +85,6 @@ class Comment
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -94,7 +96,6 @@ class Comment
     public function setConference(?Conference $conference): self
     {
         $this->conference = $conference;
-
         return $this;
     }
 
@@ -106,7 +107,6 @@ class Comment
     public function setPhotoFilename(?string $photoFilename): self
     {
         $this->photoFilename = $photoFilename;
-
         return $this;
     }
 }
